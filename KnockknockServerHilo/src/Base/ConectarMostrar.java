@@ -26,22 +26,21 @@ public class ConectarMostrar {
     // Ruta del servidor.
     private static String server = "jdbc:mysql://localhost:3306/" + bd;
  
-    public  List<String> consultarLista(String cadena)  {
+    public  String consultarLista(String cadena)  {
  
         System.out.println("INICIO DE EJECUCIÓN.");
         conectar();
         Statement st = conexion();
-     List<String> lista = new ArrayList<String>();
+     String  usuarioContrasena="";
         ResultSet rs = consultaQuery(st, cadena);
         if (rs != null) {
             System.out.println("El listado de persona es el siguiente:");
             try {
                 while (rs.next()) {
-                    String nombre=rs.getObject("nombrePersona").toString();
-                    String apellido=rs.getObject("apellidoPersona").toString();
-                   
-                    lista.add(nombre);
-                    
+                    String nombre=rs.getObject("NOMBREUSUARIO").toString();
+                    String contrasena=rs.getObject("CONTRASENA").toString();
+                     usuarioContrasena=nombre+" "+contrasena;
+                     break;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ConectarMostrar.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,7 +49,7 @@ public class ConectarMostrar {
         }
         cerrar(st);
         System.out.println("FIN DE EJECUCIÓN.");
-        return lista;
+        return usuarioContrasena;
     }
  
     /**

@@ -30,10 +30,11 @@ package knockknockserverhilo;
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import Base.ConectarMostrar;
 import java.net.*;
 import java.io.*;
 import java.util.concurrent.ExecutorService;
-import Base.MySQL;
+
 public class KnockKnockServer {
 
     public static Integer contadorClientes = 0;
@@ -47,8 +48,10 @@ public class KnockKnockServer {
 /**
  * conexion a la base
  */
-        MySQL db = new MySQL();
-        db.MySQLConnect();
+       
+         String cadena = "SELECT * FROM persona;";
+         ConectarMostrar cm=new ConectarMostrar();
+         String result=cm.consultarLista(cadena);
        
         int portNumber = 4445;// Integer.parseInt(args[0]);
         boolean listening = true;

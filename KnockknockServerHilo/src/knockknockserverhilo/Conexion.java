@@ -96,9 +96,15 @@ public class Conexion extends Thread {
                 KnockKnockProtocol kkp = new KnockKnockProtocol();
                 outputLine = kkp.processInput(null);
                 out.println(outputLine);
-
+                int cont=0;
+                String pass;
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println(inputLine);
+                    if (cont==1) {
+                        pass=inputLine;
+                        pass.hashCode();
+                        System.out.println(pass);
+                    }
                     datosEntrada.add(datos);
                     datos += inputLine;
                     datos += this.printUsage(inputLine);

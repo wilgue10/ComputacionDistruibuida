@@ -37,14 +37,15 @@ import java.net.*;
 public class KnockKnockClient {
     public static void main(String[] args) throws IOException {
         
-        if (args.length != 2) {
+       /* if (args.length != 2) {
             System.err.println(
                 "Usage: java EchoClient <host name> <port number>");
             System.exit(1);
         }
-
-        String hostName = args[0];
-        int portNumber = Integer.parseInt(args[1]);
+*/
+       
+        String hostName = "172.29.60.66";
+        int portNumber = 4445;
         
         for(int i = 0; i < 1; i++) {
 	        new Thread(new Runnable() {

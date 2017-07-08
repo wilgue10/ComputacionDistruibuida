@@ -25,8 +25,19 @@ public class ConectarMostrar {
     private static String driver = "com.mysql.jdbc.Driver";
     // Ruta del servidor.
     private static String server = "jdbc:mysql://localhost:3306/" + bd;
- 
-    public  String consultarLista(String cadena)  {
+    public boolean insertarPassword(String cadena){
+        boolean respuesta=false;
+         conectar();
+        Statement st = conexion();
+        try {
+              consultaActualiza(st, cadena);
+              respuesta=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }      
+        return respuesta;
+    }
+    public  String consultarUsuario(String cadena)  {
  
         System.out.println("INICIO DE EJECUCIÓN.");
         conectar();
@@ -40,6 +51,7 @@ public class ConectarMostrar {
                     String nombre=rs.getObject("NOMBREUSUARIO").toString();
                     String contrasena=rs.getObject("CONTRASENA").toString();
                      usuarioContrasena=nombre+" "+contrasena;
+                     System.out.println(usuarioContrasena);
                      break;
                 }
             } catch (SQLException ex) {

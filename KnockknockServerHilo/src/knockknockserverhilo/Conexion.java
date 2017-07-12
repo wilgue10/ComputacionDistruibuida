@@ -100,16 +100,21 @@ public class Conexion extends Thread {
                 int cont=0;
                 String pass = null;
                 String user = null;
+                String msg = null;
+                String caesarMsg = null;
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println(inputLine);
                     if(cont == 0) {
                         user = inputLine;
                     }
-                    if (cont==1) {
+                    if (cont == 1) {
                         pass=getHash(inputLine, "MD5");
                         System.out.println("pas: " + pass);
                     }
-                    
+                    if(cont == 2) {
+                        msg = inputLine;
+                        caesarMsg = printUsage(msg);
+                    }
                     cont++;
                     datosEntrada.add(datos);
                     datos += inputLine;
@@ -125,6 +130,7 @@ public class Conexion extends Thread {
                 if(con.consultarUsuario(user) && con.consultarContrasena(pass)) {
                     System.out.println(con.consultarUsuario(user)+":::"+con.consultarContrasena(pass));
                     System.out.println("acceso concedido");
+                    con.insertarMensaje(msg, caesarMsg);
                 } else {
                     con.crearPersona(user, pass);
                 }

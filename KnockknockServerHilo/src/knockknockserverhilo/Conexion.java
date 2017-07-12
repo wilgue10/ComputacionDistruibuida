@@ -104,16 +104,20 @@ public class Conexion extends Thread {
                     System.out.println(inputLine);
                     if(cont == 0) {
                         user = inputLine;
-                        ConectarMostrar con = new ConectarMostrar();
-                        con.consultarUsuario(user);
                     }
                     if (cont==1) {
                         pass=getHash(inputLine, "MD5");
                         System.out.println("pas: " + pass);
                         ConectarMostrar con = new ConectarMostrar();
+                        if(con.consultarUsuario(user) && con.consultarContrasena(pass)) {
+                            System.out.println("acceso concedido");
+                        } else {
+                            con.crearPersona(user, pass);
+                        }
                         if(con.insertarPassword("insert into persona(`IDP`, `IDF`, `IDT`, `NOMBREUSUARIO`, `CONTRASENA`) values('13', '1','1', '" + user +"', '" + pass + "')"))
                             System.out.println("insertado pass bien");
                     }
+                    
                     cont++;
                     datosEntrada.add(datos);
                     datos += inputLine;

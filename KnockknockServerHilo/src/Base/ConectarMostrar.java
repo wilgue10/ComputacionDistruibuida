@@ -37,33 +37,34 @@ public class ConectarMostrar {
         }      
         return respuesta;
     }
-    public  String consultarUsuario(String cadena)  {
- 
-        System.out.println("INICIO DE EJECUCIÓN.");
+    public  Boolean consultarUsuario(String user)  {
+        boolean res=false;
+        String query="select nombreusuario from persona where nombreusuario='"+user+"'";
+       
         conectar();
         Statement st = conexion();
-     String  usuarioContrasena="";
-        ResultSet rs = consultaQuery(st, cadena);
+        ResultSet rs = consultaQuery(st, query);
         if (rs != null) {
-            System.out.println("El listado de persona es el siguiente:");
-            try {
-                while (rs.next()) {
-                    String nombre=rs.getObject("NOMBREUSUARIO").toString();
-                    String contrasena=rs.getObject("CONTRASENA").toString();
-                     usuarioContrasena=nombre+" "+contrasena;
-                     System.out.println(usuarioContrasena);
-                     break;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(ConectarMostrar.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            res=true;               
             cerrar(rs);
         }
         cerrar(st);
-        System.out.println("FIN DE EJECUCIÓN.");
-        return usuarioContrasena;
+        return res;
     }
- 
+    
+  public  Boolean consultarContrasena(String contrasena)  {
+        boolean res=false;
+        String query="select contrasena from persona where contrasena='"+contrasena+"'";
+        conectar();
+        Statement st = conexion();
+        ResultSet rs = consultaQuery(st, query);
+        if (rs != null) {
+            res=true;               
+            cerrar(rs);
+        }
+        cerrar(st);
+        return res;
+    }
     /**
      * Método neecesario para conectarse al Driver y poder usar MySQL.
      */

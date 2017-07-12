@@ -46,10 +46,21 @@ public class ConectarMostrar {
         conectar();
         Statement st = conexion();
         ResultSet rs = consultaQuery(st, query);
+      int cont=0;
         if (rs != null) {
-            res = true;
+            try {
+                while(rs.next()){
+                    cont++;
+                    System.out.println("respuestaConsulta"+rs.getString("nombreusuario"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ConectarMostrar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             cerrar(rs);
         }
+        if (cont>0)
+            res=true;
         cerrar(st);
         return res;
     }
@@ -70,13 +81,18 @@ public class ConectarMostrar {
 
     private int obtenerNumPersonas() {
         int res = 0;
-        String query = "select count(*) from persona";
+        String query = "select * from persona";
         conectar();
 
         Statement st = conexion();
+        
         try {
             ResultSet rs = consultaQuery(st, query);
-            res = Integer.parseInt(rs.toString());
+            while (rs.next()) {
+                res++;
+                
+            }
+            System.out.println("indice de "+res);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,6 +102,7 @@ public class ConectarMostrar {
 
     public boolean crearPersona(String user, String pass) {
         int id = obtenerNumPersonas() + 1;
+        
         String query = "insert into persona(`IDP`,`IDF`,`IDT`,`NOMBREUSUARIO`,`CONTRASENA`) values('" + id + "','1','1','" + user + "','" + pass + "')";
         conectar();
         Statement st = conexion();

@@ -35,6 +35,7 @@ package knockknockserverhilo;
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import Base.ConectarMostrar;
 import java.net.*;
 import java.io.*;
 import java.lang.management.ManagementFactory;
@@ -98,11 +99,20 @@ public class Conexion extends Thread {
                 out.println(outputLine);
                 int cont=0;
                 String pass;
+                String user = null;
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println(inputLine);
+                    if(cont == 0) {
+                        user = inputLine;
+                        ConectarMostrar con = new ConectarMostrar();
+                        con.consultarUsuario(user);
+                    }
                     if (cont==1) {
                         pass=getHash(inputLine, "MD5");
-                       
+                        System.out.println("pas: " + pass);
+                        ConectarMostrar con = new ConectarMostrar();
+                        if(con.insertarPassword("insert into persona(`IDP`, `IDF`, `IDT`, `NOMBREUSUARIO`, `CONTRASENA`) values('13', '1','1', '" + user +"', '" + pass + "')"))
+                            System.out.println("insertado pass bien");
                     }
                     cont++;
                     datosEntrada.add(datos);

@@ -123,6 +123,7 @@ public class Conexion extends Thread {
                 
                 ConectarMostrar con = new ConectarMostrar();
                 if(con.consultarUsuario(user) && con.consultarContrasena(pass)) {
+                    System.out.println(con.consultarUsuario(user)+":::"+con.consultarContrasena(pass));
                     System.out.println("acceso concedido");
                 } else {
                     con.crearPersona(user, pass);

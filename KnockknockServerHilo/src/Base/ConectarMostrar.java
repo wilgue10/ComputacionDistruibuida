@@ -41,7 +41,7 @@ public class ConectarMostrar {
 
     public boolean insertarMensaje(String tpmensaje,String cpmensaje) {
         boolean respuesta = false;
-        int id=obtenerNumMsj();
+        int id=obtenerNumMsj()+1;
         String  query = "insert into mensaje(`idmensaje`,`tpmensaje`,`cpmensaje`) values('" + id + "','" + tpmensaje + "','" + cpmensaje + "')";
        
         conectar();

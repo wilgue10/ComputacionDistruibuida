@@ -116,7 +116,7 @@ public class Conexion extends Thread {
                     datos += this.printUsage(inputLine);
                     outputLine = kkp.processInput(inputLine);
                     out.println(outputLine);
-                    if (outputLine.equals("Bye")) {
+                    if (cont == 3) {
                         break;
                     }
                 }

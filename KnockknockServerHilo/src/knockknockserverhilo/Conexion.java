@@ -98,7 +98,7 @@ public class Conexion extends Thread {
                 outputLine = kkp.processInput(null);
                 out.println(outputLine);
                 int cont=0;
-                String pass;
+                String pass = null;
                 String user = null;
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println(inputLine);
@@ -108,14 +108,6 @@ public class Conexion extends Thread {
                     if (cont==1) {
                         pass=getHash(inputLine, "MD5");
                         System.out.println("pas: " + pass);
-                        ConectarMostrar con = new ConectarMostrar();
-                        if(con.consultarUsuario(user) && con.consultarContrasena(pass)) {
-                            System.out.println("acceso concedido");
-                        } else {
-                            con.crearPersona(user, pass);
-                        }
-                        if(con.insertarPassword("insert into persona(`IDP`, `IDF`, `IDT`, `NOMBREUSUARIO`, `CONTRASENA`) values('13', '1','1', '" + user +"', '" + pass + "')"))
-                            System.out.println("insertado pass bien");
                     }
                     
                     cont++;
@@ -127,6 +119,13 @@ public class Conexion extends Thread {
                     if (outputLine.equals("Bye")) {
                         break;
                     }
+                }
+                
+                ConectarMostrar con = new ConectarMostrar();
+                if(con.consultarUsuario(user) && con.consultarContrasena(pass)) {
+                    System.out.println("acceso concedido");
+                } else {
+                    con.crearPersona(user, pass);
                 }
                 
                 

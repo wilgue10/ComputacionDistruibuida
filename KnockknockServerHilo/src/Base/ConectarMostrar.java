@@ -39,6 +39,22 @@ public class ConectarMostrar {
         return respuesta;
     }
 
+    public boolean insertarMensaje(String tpmensaje,String cpmensaje) {
+        boolean respuesta = false;
+        int id=obtenerNumMsj();
+        String  query = "insert into mensaje(`idmensaje`,`tpmensaje`,`cpmensaje`) values('" + id + "','" + tpmensaje + "','" + cpmensaje + "')";
+       
+        conectar();
+        Statement st = conexion();
+        try {
+            consultaActualiza(st, query);
+            respuesta = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return respuesta;
+    }
+
     public boolean consultarUsuario(String user) {
         boolean res = false;
         String query = "select nombreusuario from persona where nombreusuario='" + user + "'";
@@ -46,21 +62,22 @@ public class ConectarMostrar {
         conectar();
         Statement st = conexion();
         ResultSet rs = consultaQuery(st, query);
-      int cont=0;
+        int cont = 0;
         if (rs != null) {
             try {
-                while(rs.next()){
+                while (rs.next()) {
                     cont++;
-                    System.out.println("respuestaConsulta"+rs.getString("nombreusuario"));
+                    System.out.println("respuestaConsulta" + rs.getString("nombreusuario"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ConectarMostrar.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             cerrar(rs);
         }
-        if (cont>0)
-            res=true;
+        if (cont > 0) {
+            res = true;
+        }
         cerrar(st);
         return res;
     }
@@ -78,21 +95,39 @@ public class ConectarMostrar {
         cerrar(st);
         return res;
     }
-
-    private int obtenerNumPersonas() {
+private int obtenerNumPersonas() {
         int res = 0;
         String query = "select * from persona";
         conectar();
 
         Statement st = conexion();
-        
+
         try {
             ResultSet rs = consultaQuery(st, query);
             while (rs.next()) {
                 res++;
-                
+
             }
-            System.out.println("indice de "+res);
+            System.out.println("indice de " + res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+    private int obtenerNumMsj() {
+        int res = 0;
+        String query = "select * from mensaje";
+        conectar();
+
+        Statement st = conexion();
+
+        try {
+            ResultSet rs = consultaQuery(st, query);
+            while (rs.next()) {
+                res++;
+            }
+            System.out.println("indice de " + res);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,7 +137,7 @@ public class ConectarMostrar {
 
     public boolean crearPersona(String user, String pass) {
         int id = obtenerNumPersonas() + 1;
-        
+
         String query = "insert into persona(`IDP`,`IDF`,`IDT`,`NOMBREUSUARIO`,`CONTRASENA`) values('" + id + "','1','1','" + user + "','" + pass + "')";
         conectar();
         Statement st = conexion();

@@ -44,7 +44,7 @@ public class KnockKnockClient {
         }
 */
        
-        String hostName = "172.29.60.66";
+        String hostName = "172.31.104.141";
         int portNumber = 4445;
         
         for(int i = 0; i < 1; i++) {

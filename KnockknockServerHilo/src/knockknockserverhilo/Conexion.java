@@ -51,7 +51,7 @@ public class Conexion extends Thread {
     private Socket socket = null;
     private Integer cliente;
     private File file;
-    private ArrayList <String> datosEntrada;
+    private ArrayList <String> datosEntrada=new ArrayList<String>();
     public Conexion(Socket socket, Integer cliente, File file) {
         super("Conexion");
         this.socket = socket;
@@ -77,13 +77,13 @@ public class Conexion extends Thread {
                         new InputStreamReader(
                                 socket.getInputStream()));) {
             FileWriter bufferedWriter;
-            File fileUsuarios = new File("C:\\Users\\Wilmer\\Documents\\Usuarios.txt");
-            FileReader fileReader = new FileReader(fileUsuarios);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String ip = "";
-            System.out.println("archivo:"+bufferedReader.readLine());
-            System.out.println("Socket:"+this.socket.getInetAddress().toString());
-            if ((ip = bufferedReader.readLine()) != null && ip.equals(this.socket.getInetAddress().toString())) {
+//            File fileUsuarios = new File("Usuarios.txt");
+//            FileReader fileReader = new FileReader(fileUsuarios);
+//            BufferedReader bufferedReader = new BufferedReader(fileReader);
+//            String ip = "";
+//            System.out.println("archivo:"+bufferedReader.readLine());
+//            System.out.println("Socket:"+this.socket.getInetAddress().toString());
+//            if ((ip = bufferedReader.readLine()) != null && ip.equals(this.socket.getInetAddress().toString())) {
                 
                 bufferedWriter = new FileWriter(file);
                 PrintWriter printWriter = new PrintWriter(bufferedWriter);
@@ -101,10 +101,10 @@ public class Conexion extends Thread {
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println(inputLine);
                     if (cont==1) {
-                        pass=inputLine;
-                        pass.hashCode();
-                        System.out.println(pass);
+                        pass=getHash(inputLine, "MD5");
+                       
                     }
+                    cont++;
                     datosEntrada.add(datos);
                     datos += inputLine;
                     datos += this.printUsage(inputLine);
@@ -114,6 +114,8 @@ public class Conexion extends Thread {
                         break;
                     }
                 }
+                
+                
                 for (int i = 0; i < 3; i++) {
                  System.out.println(datosEntrada.get(i));
                   
@@ -129,15 +131,31 @@ public class Conexion extends Thread {
                 bufferedWriter.close();
                 printWriter.close();
                 printWriter2.close();
-            }else
-            System.out.println("no entro");
+//            }else
+//            System.out.println("no entro");
             
-            fileReader.close();
-            bufferedReader.close();
+           // fileReader.close();
+            //bufferedReader.close();
             socket.close();
             
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static String getHash(String txt, String hashType) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest
+                    .getInstance(hashType);
+            byte[] array = md.digest(txt.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
+                        .substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

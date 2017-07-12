@@ -49,15 +49,13 @@ public class KnockKnockServer {
  * conexion a la base
  */
        
-         String cadena = "SELECT * FROM persona;";
-         ConectarMostrar cm=new ConectarMostrar();
-         String result=cm.consultarLista(cadena);
+        
        
         int portNumber = 4445;// Integer.parseInt(args[0]);
         boolean listening = true;
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             contadorClientes++;
-            while (listening) {
+            while (listening)   {
                 System.out.println("Contador clientes en el servidor:" + contadorClientes);
                 if (contadorClientes <= 10) {
                     new Conexion(serverSocket.accept(), contadorClientes, new File("log" + contadorClientes + ".txt")).start();
